@@ -1,0 +1,51 @@
+
+
+
+
+           
+<div class="container">
+
+	<div class="col-sm-12">
+		<form class="form" [formGroup]="formPersona"  (submit)="agregar()" enctype="multipart/form-data" errorTailor>
+			<div class="mb-3">
+				<label class="form-label">Nombre</label>
+				<input [(ngModel)]="persona.nom_persona" type="text"  class="form-control" formControlName="nom_persona">
+			</div>
+			<div class="mb-3">
+				<label class="form-label">Apellido Paterno</label>
+				<input [(ngModel)]="persona.ape_pare_pers" type="text"  class="form-control" formControlName="ape_pare_pers">
+			</div>
+			<div class="mb-3">
+				<label class="form-label">Apellido Materno</label>
+				<input [(ngModel)]="persona.ape_mate_pers" type="text"  class="form-control" formControlName="ape_mate_pers">
+			</div>
+			<div class="mb-3">
+				<label class="form-label">Grado</label>
+				
+				<select  [(ngModel)]="persona.nid_grado" class="form-select" aria-label="Disabled select example" formControlName="nid_grado">
+				  <option *ngFor="let grado of ListarGrado" value="{{grado.nid_grado}}" selected>{{grado.desc_grado}}</option>
+				  
+				</select>
+			</div>
+			<div class="mb-3">
+				<label class="form-label">Fecha nacimiento</label>
+				<input [(ngModel)]="persona.fecha_naci" type="date" (change)="fecha($event)"  class="form-control" formControlName="fecha_naci">
+			
+			</div>
+			<div class="mb-3">
+				<label class="form-label">Edad</label>
+				<input  type="text"  class="form-control" formControlName="fecha_naci" value="{{edad}}" disabled>
+			
+			</div>
+			<div class="mb-3">
+				<label class="form-label">Foto</label>
+				<input [(ngModel)]="persona.foto_ruta" (change)="onFileSelected($event)" type="file"  class="form-control" formControlName="foto_ruta">
+			</div>
+			<button [disabled]="formPersona.invalid" class="btn btn-primary" > Agregar</button>
+		</form>
+	</div>
+	<div class="col-sm-6">
+		
+	</div>
+</div>
+ 

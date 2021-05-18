@@ -1,0 +1,71 @@
+
+
+<div class="container">
+	<div class="row text-center">
+		<div class="col">
+			<div class="form-group">
+				<input type="text" class="form-control" placeholder="Buscar.." name="filterPost" [(ngModel)]="filterPost">
+			</div>
+			
+		</div>
+		<div class="col">
+			<div class="form-group">
+				<button type="button" class="btn btn-primary" (click)="open(content)" >Agregar</button>
+			</div>
+			
+		</div>
+	</div><br> 
+
+	
+		<div class="row" >
+		<div class="col-sm-4" *ngFor="let persona of ListarPersona | filter:filterPost">
+			<div class="card" style="width: 18rem;">
+			  <img  src="http://localhost:3000/api/image/{{persona.foto_ruta}}" class="card-img-top" alt="img">
+			  <div class="card-body">
+			    <h5 class="card-title">{{persona.nom_persona+' '+persona.ape_pate_pers+' '+persona.ape_mate_pers}}</h5>
+			    <p class="card-text" >{{persona.fecha_naci}}</p>
+			    <p class="card-text" >{{persona.desc_grado+' '+persona.nivel}}</p>
+			    <a (click)="eliminar(persona.nid_persona)" data-bs-toggle="modal" data-bs-target="#modal2" class="btn btn-danger">Borrar</a>
+  				</div>
+			</div>
+		</div>
+
+
+		</div>	
+</div>
+
+
+<ng-template #content let-c="close" let-d="dismiss">
+  <div class="modal-header">
+    <h4 class="modal-title" id="modal-basic-title">Agregar</h4>
+    <button type="button" class="close" aria-label="Close" (click)="d('Cross click')">
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </div>
+  <div class="modal-body">
+    <app-agregar></app-agregar>
+  </div>
+  <div class="modal-footer">
+    <button type="button" class="btn btn-outline-dark" (click)="closed(content)">Save</button>
+  </div>
+</ng-template>
+
+<div class="modal" tabindex="-1" id="modal2">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title">Modal title</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+        <p>Desea Eliminar registro.</p>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancerlar</button>
+        <button (click)="eliminarRegistro()" type="button" class="btn btn-primary" data-bs-dismiss="modal" aria-label="Close">Eliminar</button>
+      </div>
+    </div>
+  </div>
+</div>
+<!-- Modal -->
+
