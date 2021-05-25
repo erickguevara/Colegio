@@ -60,18 +60,10 @@ export class AgregarComponent implements OnInit {
     this.PersonaService.umpload(formData).subscribe((res)=>{
       this.persona.foto_ruta=<any>res;
         this.PersonaService.addPersona(this.persona).subscribe(res=>{
-           this.last_id=<any>res
-             this.detalle_cronograma(this.last_id[0].id,this.persona.nid_grado);
-             this.formPersona.reset();
-             this.InicioComponent.listarPersonas();
-             this.InicioComponent.closed();
+            this.InicioComponent.agregarpersonalista(<any>res);
         });
-      
       });
-  
-
-    //
-     this.InicioComponent.listarPersonas();
+      this.InicioComponent.closed();
   }
 
   detalle_cronograma(id,grado){
