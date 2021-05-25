@@ -34,23 +34,25 @@ config.backdrop = 'static';
   			err=> console.log(err)
   		);
   }
-open(content) {
+  open(content) {
     this.modalService.open(content);
-    
-
   }
   closed() {
     this.modalService.dismissAll();  
   }
   eliminar(id:number){
     this.ideliminar=id;
-
   }
-    eliminarRegistro(){
-  
+  eliminarRegistro(){
+    const resultPosts =[];
     this.PersonaService.deletePersona(this.ideliminar).subscribe(
       res=>{
-        this.listarPersonas();
+        for(const post of this.ListarPersona){
+            if(post.nid_persona!=this.ideliminar){
+                resultPosts.push(post);
+            }
+      }
+      this.ListarPersona=resultPosts;
       },
       err=>console.log(err)
       );
@@ -58,6 +60,13 @@ open(content) {
   modificar(id:number){
     this.router.navigate(['/edit/'+id])
 
+  }
+  agregarpersonalista(persona){ 
+    persona[0].fecha_naci=this.edad(persona[0].fecha_naci);
+    const resultPosts= this.ListarPersona;
+    console.log(resultPosts);
+    resultPosts.push(persona[0]);
+    this.ListarPersona=resultPosts;
   }
 
   edad (fecha:any){
