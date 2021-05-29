@@ -19,12 +19,12 @@ export class AgregarComponent implements OnInit {
   public formPersona: FormGroup;
   persona: Persona={
   nid_persona:null,
-	nom_persona:'',
-	ape_pare_pers:'',
-	ape_mate_pers:'',
-	nid_grado:null,
-	fecha_naci:'',
-	foto_ruta:null,
+  nom_persona:'',
+  ape_pare_pers:'',
+  ape_mate_pers:'',
+  nid_grado:null,
+  fecha_naci:'',
+  foto_ruta:null,
   };
   constructor(private formBuilder: FormBuilder,private PersonaService:PersonaService,private router:Router,private InicioComponent:InicioComponent) {
 
@@ -54,18 +54,22 @@ export class AgregarComponent implements OnInit {
 
 
   agregar():any{
-  	delete this.persona.nid_persona;
+    delete this.persona.nid_persona;
     const formData = new FormData();
     formData.append("uploads[]", this.uploadedFiles[0], this.uploadedFiles[0].name);
-    this.PersonaService.umpload(formData).subscribe((res)=>{
-      this.persona.foto_ruta=<any>res;
-        this.PersonaService.addPersona(this.persona).subscribe(res=>{
-            this.InicioComponent.agregarpersonalista(<any>res);
-        });
-      });
+    formData.append("nom_persona", this.persona.nom_persona);
+    formData.append("ape_pare_pers", this.persona.ape_pare_pers);
+    formData.append("ape_mate_pers", this.persona.ape_mate_pers);
+    formData.append("nid_grado",<any>this.persona.nid_grado);
+    formData.append("fecha_naci",this.persona.fecha_naci);
+
+    this.PersonaService.umpload(formData,this.persona).subscribe((res)=>{
+         this.InicioComponent.agregarpersonalista(<any>res);
+      },
+      err=>console.log(err)
+      );
       this.InicioComponent.closed();
   }
-
   detalle_cronograma(id,grado){
 
     this.PersonaService.detalle_cronograma(id,grado).subscribe();
