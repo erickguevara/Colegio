@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component,Output, OnInit } from '@angular/core';
 import { PersonaService, Persona } from '../Services/persona.service';
 import { NgbModalConfig, NgbModal,  } from '@ng-bootstrap/ng-bootstrap';
 import { Router } from '@angular/router';
@@ -10,6 +10,7 @@ import { Router } from '@angular/router';
 })
 export class InicioComponent implements OnInit {
   ListarPersona: Persona[]; 
+
   ideliminar:any;
   filterPost='';
   constructor(private PersonaService:PersonaService,private router:Router,config: NgbModalConfig, private modalService: NgbModal) { 
@@ -18,21 +19,21 @@ config.backdrop = 'static';
   }
 
   ngOnInit(): void {
-  	this.listarPersonas();
+    this.listarPersonas();
 
   }
 
   listarPersonas(){
-  	this.PersonaService.getPersonas().subscribe(
-  			res=>{
+    this.PersonaService.getPersonas().subscribe(
+        res=>{
           this.ListarPersona=<any>res;
           for (var i =0  ; i < this.ListarPersona.length; i++) {
             this.ListarPersona[i].fecha_naci=this.edad(this.ListarPersona[i].fecha_naci);
           }
           
-  			},
-  			err=> console.log(err)
-  		);
+        },
+        err=> console.log(err)
+      );
   }
   open(content) {
     this.modalService.open(content);
@@ -44,15 +45,10 @@ config.backdrop = 'static';
     this.ideliminar=id;
   }
   eliminarRegistro(){
-    const resultPosts =[];
+
     this.PersonaService.deletePersona(this.ideliminar).subscribe(
       res=>{
-        for(const post of this.ListarPersona){
-            if(post.nid_persona!=this.ideliminar){
-                resultPosts.push(post);
-            }
-      }
-      this.ListarPersona=resultPosts;
+         this.ListarPersona = this.ListarPersona.filter(ListarPersona => ListarPersona.nid_persona != this.ideliminar);
       },
       err=>console.log(err)
       );
@@ -63,10 +59,7 @@ config.backdrop = 'static';
   }
   agregarpersonalista(persona){ 
     persona[0].fecha_naci=this.edad(persona[0].fecha_naci);
-    const resultPosts= this.ListarPersona;
-    console.log(resultPosts);
-    resultPosts.push(persona[0]);
-    this.ListarPersona=resultPosts;
+    this.ListarPersona.push(persona[0]);
   }
 
   edad (fecha:any){
